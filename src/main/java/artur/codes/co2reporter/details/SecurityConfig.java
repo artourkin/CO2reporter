@@ -14,33 +14,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        PasswordEncoder encoder =
-                PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        auth
-                .inMemoryAuthentication()
-                .withUser("atwien")
-                .password(encoder.encode("password"))
-                .authorities("USER")
-                .and()
-                .withUser("admin")
-                .password("admin")
-                .authorities("ADMIN");
-    }
+    protected void configure(HttpSecurity httpSecurity) throws Exception
+    {
+        httpSecurity
+                .csrf().disable()
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests()
-                .antMatchers("/sensordata/create").permitAll()
-                .antMatchers("/sensordata/read").hasAnyAuthority("ADMIN", "USER")
-
-                // Any other URLs which are not configured in above antMatchers
-                // generally declared aunthenticated() in real time
+                .authorizeRequests()
+                .antMatchers("/sensordata/read").hasRole("USER")
                 .anyRequest().authenticated()
-
-                //Login Form Details
                 .and()
                 .httpBasic();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth)
+            throws Exception
+    {
+        auth.inMemoryAuthentication()
+                .withUser("admin")
+                .password("{noop}admin")
+                .roles("ADMIN").and()
+                .withUser("atwien")
+                .password("{noop}pass")
+                .roles("USER");;
     }
 }

@@ -1,6 +1,7 @@
 package artur.codes.co2reporter.details;
 
 import artur.codes.co2reporter.usecase.SensorDataPresenter;
+import artur.codes.co2reporter.usecase.io.SensorDataListResponseModel;
 import artur.codes.co2reporter.usecase.io.SensorDataResponseModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,12 +15,19 @@ public class SensorDataRESTFormatter implements SensorDataPresenter {
     }
 
     @Override
-    public SensorDataResponseModel prepareFailView(String s) {
+    public SensorDataResponseModel prepareFailView(SensorDataResponseModel responseModel, String s) {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, s);
     }
 
     @Override
-    public List<SensorDataResponseModel> prepareSuccessView(List<SensorDataResponseModel> collected) {
-        return collected;
+    public SensorDataListResponseModel prepareSuccessView(SensorDataListResponseModel response) {
+        return response;
     }
+
+    @Override
+    public SensorDataListResponseModel prepareFailView(SensorDataListResponseModel response, String s) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, s);
+    }
+
+
 }

@@ -4,6 +4,7 @@ public class SensorDataReadRequestModel {
     private String country;
     private String city;
     private String location;
+    private String name;
 
     public SensorDataReadRequestModel(String country, String city, String location) {
         this.country = country;
@@ -33,5 +34,14 @@ public class SensorDataReadRequestModel {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public void setUser(String name) {
+
+        this.name = name;
+    }
+
+    public String getUser() {
+        return name;
     }
 }

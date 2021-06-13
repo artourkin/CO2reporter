@@ -10,6 +10,8 @@ public class SensorDataResponseModel {
     private String location;
     private Timestamp timestamp;
 
+    public SensorDataResponseModel() { };
+
     public SensorDataResponseModel(String value, String country, String city, String location, Timestamp timestamp) {
         this.value = value;
         this.country = country;
@@ -25,7 +27,6 @@ public class SensorDataResponseModel {
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
-
 
 
     public String getValue() {
